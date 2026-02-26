@@ -1,0 +1,8 @@
+streamlit
+librosa
+numpy
+pydub
+soundfile
+scipy
+ffmpeg-python
+audioread
