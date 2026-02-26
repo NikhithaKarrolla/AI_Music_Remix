@@ -1,20 +1,21 @@
 import librosa
 import soundfile as sf
 import tempfile
-import os
 
 def remix_song(file, tempo=1.2, pitch=2):
 
-    with tempfile.NamedTemporaryFile(delete=False) as tmp:
+    # save uploaded file temporarily
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as tmp:
         tmp.write(file.read())
-        temp_path = tmp.name
+        temp_input = tmp.name
 
-    y, sr = librosa.load(temp_path, sr=None)
+    y, sr = librosa.load(temp_input, sr=None)
 
     y_fast = librosa.effects.time_stretch(y=y, rate=tempo)
     y_pitch = librosa.effects.pitch_shift(y=y_fast, sr=sr, n_steps=pitch)
 
-    output = "output/remixed_song.wav"
-    sf.write(output, y_pitch, sr)
+    # create output temp file
+    temp_output = tempfile.NamedTemporaryFile(delete=False, suffix=".wav")
+    sf.write(temp_output.name, y_pitch, sr)
 
-    return output
+    return temp_output.name

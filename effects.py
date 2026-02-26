@@ -1,17 +1,17 @@
 from pydub import AudioSegment
 from pydub.effects import normalize
+import tempfile
 
 def add_echo(file):
 
     sound = AudioSegment.from_file(file)
 
-    # correct echo method
     echo = sound.overlay(sound - 10, position=250)
 
-    output = "output/echo_song.wav"
-    echo.export(output, format="wav")
+    temp_output = tempfile.NamedTemporaryFile(delete=False, suffix=".wav")
+    echo.export(temp_output.name, format="wav")
 
-    return output
+    return temp_output.name
 
 
 def normalize_audio(file):
@@ -19,7 +19,7 @@ def normalize_audio(file):
     sound = AudioSegment.from_file(file)
     normalized = normalize(sound)
 
-    output = "output/normalized.wav"
-    normalized.export(output, format="wav")
+    temp_output = tempfile.NamedTemporaryFile(delete=False, suffix=".wav")
+    normalized.export(temp_output.name, format="wav")
 
-    return output
+    return temp_output.name
