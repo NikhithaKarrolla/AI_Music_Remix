@@ -1,6 +1,7 @@
 import librosa
 import soundfile as sf
 import tempfile
+import os
 
 def remix_song(file, tempo=1.2, pitch=2):
 
